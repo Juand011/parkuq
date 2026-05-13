@@ -3,6 +3,10 @@ package services;
 import utilidades.*;
 import model.*;
 import javax.swing.*;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
@@ -500,6 +504,46 @@ public class Parqueadero {
         return tarifa;
     }
 
-    // ================ METODOS PROPIOS DE TARIFA ================
+    // ================ METODOS PROPIOS DE LOGIN ================
+    public void cargarDatosIniciales() {
+        String ruta = "E:\\INTELIGENT\\Av1\\parkuq\\src\\Controllers\\administradores.txt";
+        this.administradores.clear();
+
+        try (java.io.BufferedReader br = new java.io.BufferedReader(new java.io.FileReader(ruta))) {
+            String linea;
+            while ((linea = br.readLine()) != null) {
+                if (linea.trim().isEmpty()) continue;
+
+                String[] partes = linea.split("\\|");
+
+                // Verificamos que tenga 5 partes: nombre|id|codigo|roll|contrasena
+                if (partes.length >= 5) {
+                    String nombre = partes[0];
+                    int id = Integer.parseInt(partes[1]);
+                    String codigo = partes[2];
+                    // partes[3] es el Roll
+                    String contrasena = partes[4];
+
+                    administradores.add(new Administrador(nombre, id, codigo, Roll.ADMINISTRADOR, contrasena));
+                }
+            }
+            System.out.println("✅ Cargados: " + administradores.size() + " administradores.");
+        } catch (Exception e) {
+            System.out.println("⚠️ Error o archivo vacío. Iniciando modo registro.");
+        }
+    }
+
+    public boolean hayAdministradores() {
+        String ruta = "E:\\INTELIGENT\\Av1\\parkuq\\src\\Controllers\\administradores.txt";
+        File archivo = new File(ruta);
+
+        if (!archivo.exists()) return false;
+
+        try (BufferedReader br = new BufferedReader(new FileReader(archivo))) {
+            return br.readLine() != null; // Si hay al menos una línea, devuelve true
+        } catch (IOException e) {
+            return false;
+        }
+    }
 
 }

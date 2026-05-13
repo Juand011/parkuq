@@ -1,0 +1,279 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.String?>
+<?import javafx.collections.FXCollections?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="750.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.OperadorController">
+    <children>
+        <VBox spacing="10.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
+            <children>
+                <HBox alignment="CENTER_LEFT" spacing="20.0">
+                    <children>
+                        <Label text="PARKUQ - Panel de Operador" textFill="#2c3e50">
+                            <font>
+                                <Font name="System Bold" size="22.0" />
+                            </font>
+                        </Label>
+                        <Label fx:id="usuarioLogueadoLabel" text="Operador: usuario" textFill="#7f8c8d" />
+                        <Button onAction="#handleCerrarSesion" style="-fx-background-color: #e74c3c; -fx-text-fill: white; -fx-cursor: hand;" text="Cerrar Sesión" />
+                    </children>
+                </HBox>
+
+                <HBox alignment="CENTER" spacing="20.0">
+                    <children>
+                        <Label text="Total espacios:" />
+                        <Label fx:id="totalEspaciosLabel" text="0" textFill="#2c3e50">
+                            <font>
+                                <Font name="System Bold" size="14.0" />
+                            </font>
+                        </Label>
+                        <Separator orientation="VERTICAL" prefHeight="30.0" />
+                        <Label text="Ocupados:" />
+                        <Label fx:id="ocupadosLabel" text="0" textFill="#e67e22">
+                            <font>
+                                <Font name="System Bold" size="14.0" />
+                            </font>
+                        </Label>
+                        <Separator orientation="VERTICAL" prefHeight="30.0" />
+                        <Label text="Disponibles:" />
+                        <Label fx:id="disponiblesLabel" text="0" textFill="#27ae60">
+                            <font>
+                                <Font name="System Bold" size="14.0" />
+                            </font>
+                        </Label>
+                    </children>
+                </HBox>
+
+                <Separator />
+
+                <TabPane tabClosingPolicy="UNAVAILABLE" VBox.vgrow="ALWAYS">
+                    <tabs>
+                        <Tab text="Registrar Ingreso">
+                            <content>
+                                <VBox spacing="15.0">
+                                    <padding>
+                                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                    </padding>
+                                    <children>
+                                        <Label text="REGISTRO DE INGRESO DE VEHÍCULO">
+                                            <font>
+                                                <Font name="System Bold" size="14.0" />
+                                            </font>
+                                        </Label>
+                                        <GridPane hgap="10.0" vgap="10.0">
+                                            <children>
+                                                <Label text="Placa:" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+                                                <TextField fx:id="placaIngresoField" promptText="ABC123" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+
+                                                <Label text="Tipo de vehículo:" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+                                                <ComboBox fx:id="tipoVehiculoIngresoCombo" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                                                    <items>
+                                                        <FXCollections fx:factory="observableArrayList">
+                                                            <String fx:value="CARRO" />
+                                                            <String fx:value="MOTO" />
+                                                            <String fx:value="BICICLETA" />
+                                                        </FXCollections>
+                                                    </items>
+                                                </ComboBox>
+
+                                                <Label text="Nombre conductor:" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+                                                <TextField fx:id="nombreConductorField" promptText="Nombre completo" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+
+                                                <Label text="Identificación:" GridPane.columnIndex="0" GridPane.rowIndex="3" />
+                                                <TextField fx:id="identificacionConductorField" promptText="Cédula / ID" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+
+                                                <Label text="Hora de ingreso:" GridPane.columnIndex="0" GridPane.rowIndex="4" />
+                                                <TextField fx:id="horaIngresoField" promptText="HH:MM" text="Auto" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+
+                                                <Label text="Espacio asignado:" GridPane.columnIndex="0" GridPane.rowIndex="5" />
+                                                <ComboBox fx:id="espacioAsignadoCombo" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                                            </children>
+                                        </GridPane>
+                                        <Button onAction="#handleRegistrarIngreso" style="-fx-background-color: #27ae60; -fx-text-fill: white; -fx-cursor: hand;" text="Registrar Ingreso" />
+                                        <Label fx:id="mensajeIngresoLabel" textFill="red" wrapText="true" />
+                                    </children>
+                                </VBox>
+                            </content>
+                        </Tab>
+
+                        <Tab text="Registrar Salida">
+                            <content>
+                                <VBox spacing="15.0">
+                                    <padding>
+                                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                    </padding>
+                                    <children>
+                                        <Label text="REGISTRO DE SALIDA DE VEHÍCULO">
+                                            <font>
+                                                <Font name="System Bold" size="14.0" />
+                                            </font>
+                                        </Label>
+                                        <GridPane hgap="10.0" vgap="10.0">
+                                            <children>
+                                                <Label text="Placa:" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+                                                <TextField fx:id="placaSalidaField" promptText="ABC123" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+                                                <Button onAction="#handleBuscarVehiculoSalida" text="Buscar" GridPane.columnIndex="2" GridPane.rowIndex="0" />
+
+                                                <Label text="Hora de salida:" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+                                                <TextField fx:id="horaSalidaField" promptText="HH:MM" text="Auto" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                            </children>
+                                        </GridPane>
+                                        <Button onAction="#handleRegistrarSalida" style="-fx-background-color: #e67e22; -fx-text-fill: white; -fx-cursor: hand;" text="Calcular y Registrar Salida" />
+
+                                        <Separator />
+
+                                        <Label text="DETALLE DE COBRO">
+                                            <font>
+                                                <Font name="System Bold" size="14.0" />
+                                            </font>
+                                        </Label>
+                                        <GridPane hgap="10.0" vgap="10.0">
+                                            <children>
+                                                <Label text="Tiempo total:" GridPane.columnIndex="0" GridPane.rowIndex="0">
+                                                    <font>
+                                                        <Font name="System Bold" size="12.0" />
+                                                    </font>
+                                                </Label>
+                                                <Label fx:id="tiempoTotalLabel" text="--" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+
+                                                <Label text="Tarifa por hora:" GridPane.columnIndex="0" GridPane.rowIndex="1">
+                                                    <font>
+                                                        <Font name="System Bold" size="12.0" />
+                                                    </font>
+                                                </Label>
+                                                <Label fx:id="tarifaHoraLabel" text="--" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+
+                                                <Label text="Descuento:" GridPane.columnIndex="0" GridPane.rowIndex="2">
+                                                    <font>
+                                                        <Font name="System Bold" size="12.0" />
+                                                    </font>
+                                                </Label>
+                                                <Label fx:id="descuentoLabel" text="--" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+
+                                                <Label text="TOTAL A PAGAR:" textFill="#27ae60" GridPane.columnIndex="0" GridPane.rowIndex="3">
+                                                    <font>
+                                                        <Font name="System Bold" size="14.0" />
+                                                    </font>
+                                                </Label>
+                                                <Label fx:id="totalPagarLabel" text="\$ --" textFill="#27ae60" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                                                    <font>
+                                                        <Font name="System Bold" size="16.0" />
+                                                    </font>
+                                                </Label>
+                                            </children>
+                                        </GridPane>
+                                        <Label fx:id="mensajeSalidaLabel" textFill="red" wrapText="true" />
+                                    </children>
+                                </VBox>
+                            </content>
+                        </Tab>
+
+                        <Tab text="Vehículos Estacionados">
+                            <content>
+                                <VBox spacing="15.0">
+                                    <padding>
+                                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                    </padding>
+                                    <children>
+                                        <Button onAction="#handleActualizarVehiculos" style="-fx-background-color: #3498db; -fx-text-fill: white;" text="Actualizar lista" />
+                                        <TableView fx:id="tablaVehiculosEstacionados" prefHeight="400.0" VBox.vgrow="ALWAYS">
+                                            <columns>
+                                                <TableColumn fx:id="colPlaca" prefWidth="100.0" text="Placa" />
+                                                <TableColumn fx:id="colTipoVehiculo" prefWidth="100.0" text="Tipo" />
+                                                <TableColumn fx:id="colConductor" prefWidth="150.0" text="Conductor" />
+                                                <TableColumn fx:id="colEspacioOcupado" prefWidth="80.0" text="Espacio" />
+                                                <TableColumn fx:id="colHoraIngreso" prefWidth="100.0" text="Hora Ingreso" />
+                                            </columns>
+                                        </TableView>
+                                    </children>
+                                </VBox>
+                            </content>
+                        </Tab>
+
+                        <Tab text="Reportes">
+                            <content>
+                                <VBox spacing="15.0">
+                                    <padding>
+                                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                    </padding>
+                                    <children>
+                                        <Label text="GENERAR REPORTES">
+                                            <font>
+                                                <Font name="System Bold" size="14.0" />
+                                            </font>
+                                        </Label>
+
+                                        <GridPane hgap="10.0" vgap="10.0">
+                                            <children>
+                                                <Label text="Fecha:" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+                                                <DatePicker fx:id="reporteFechaPicker" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+                                                <Button onAction="#handleGenerarReporteDiario" text="Generar Reporte Diario" GridPane.columnIndex="2" GridPane.rowIndex="0" />
+                                            </children>
+                                        </GridPane>
+
+                                        <GridPane hgap="10.0" vgap="10.0">
+                                            <children>
+                                                <Label text="Mostrar vehículos con más de (horas):" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+                                                <TextField fx:id="tiempoLimiteHorasField" prefWidth="60.0" promptText="Ej: 3" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+                                                <Button onAction="#handleBuscarVehiculosTiempoExcedido" text="Buscar" GridPane.columnIndex="2" GridPane.rowIndex="0" />
+                                            </children>
+                                        </GridPane>
+
+                                        <Separator />
+
+                                        <VBox spacing="5.0">
+                                            <children>
+                                                <Label text="RESULTADOS:">
+                                                    <font>
+                                                        <Font name="System Bold" size="14.0" />
+                                                    </font>
+                                                </Label>
+                                                <Label fx:id="reporteTotalVehiculosLabel" text="Total vehículos ingresados: --" />
+                                                <Label fx:id="reporteIngresosLabel" text="Ingresos generados: --" />
+                                                <Label fx:id="reporteTiempoPromedioLabel" text="Tiempo promedio de permanencia: --" />
+                                            </children>
+                                        </VBox>
+
+                                        <Separator />
+
+                                        <Label text="Vehículos con tiempo excedido:">
+                                            <font>
+                                                <Font name="System Bold" size="14.0" />
+                                            </font>
+                                        </Label>
+                                        <TableView fx:id="tablaVehiculosExcedidos" prefHeight="200.0" VBox.vgrow="ALWAYS">
+                                            <columns>
+                                                <TableColumn fx:id="colPlacaExcedido" prefWidth="100.0" text="Placa" />
+                                                <TableColumn fx:id="colConductorExcedido" prefWidth="150.0" text="Conductor" />
+                                                <TableColumn fx:id="colHorasExcedido" prefWidth="100.0" text="Horas" />
+                                            </columns>
+                                        </TableView>
+                                    </children>
+                                </VBox>
+                            </content>
+                        </Tab>
+                    </tabs>
+                </TabPane>
+            </children>
+            <padding>
+                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+            </padding>
+        </VBox>
+    </children>
+</AnchorPane>

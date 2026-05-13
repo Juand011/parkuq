@@ -1,67 +1,63 @@
 package app;
 
-import services.VehiculoServices;
-import utilidades.*;
-import model.*;
-import services.PagoServices;
+import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
 import services.Parqueadero;
+import java.net.URL;
 
-import java.time.LocalDateTime;
-import java.time.ZoneId;
+public class Main extends Application {
 
-//TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
-// click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
-public class Main {
+    private Parqueadero miParqueadero = new Parqueadero();
+
+    @Override
+    public void start(Stage stage) throws Exception {
+        // 1. Intentamos cargar los administradores desde el archivo TXT
+        miParqueadero.cargarDatosIniciales();
+
+        String rutaFxml;
+        String titulo;
+
+        // 2. Lógica de las dos entradas corregida:
+        if (miParqueadero.getAdministradores().isEmpty()) {
+            // Si no hay nadie -> Login (que es tu registro inicial)
+            rutaFxml = "/app/resources/Login.view.fxml";
+            titulo = "Registro de Administrador - ParkuQ";
+        } else {
+            // Si ya hay alguien -> SLogin (segundo login)
+            rutaFxml = "/app/resources/SLogin.view.fxml";
+            titulo = "Inicio de Sesión - ParkuQ";
+        }
+
+        // 3. Carga del recurso con validación
+        URL resource = getClass().getResource(rutaFxml);
+
+        if (resource == null) {
+            // Si falla, intentamos una ruta alternativa común en IntelliJ
+            rutaFxml = rutaFxml.replace("/app/resources/", "/resources/");
+            resource = getClass().getResource(rutaFxml);
+        }
+
+        if (resource == null) {
+            throw new RuntimeException("No se encontró el archivo FXML. Revisa que el nombre sea exacto: " + rutaFxml);
+        }
+
+        try {
+            FXMLLoader loader = new FXMLLoader(resource);
+            Scene scene = new Scene(loader.load());
+            stage.setTitle(titulo);
+            stage.setScene(scene);
+            stage.setResizable(false);
+            stage.show();
+            System.out.println("✅ Iniciando en: " + rutaFxml);
+        } catch (Exception e) {
+            System.err.println("❌ Error al cargar la escena:");
+            e.printStackTrace();
+        }
+    }
+
     public static void main(String[] args) {
-
-        Parqueadero p = new Parqueadero();
-        PagoServices ps = new PagoServices();
-        VehiculoServices vs = new VehiculoServices(p);
-        Usuario s = new Usuario("Jose",123,TipoUsuario.ESTUDIANTE);
-        Usuario s1 = new Usuario("Jose",1225,TipoUsuario.ESTUDIANTE);
-        Espacio espacio = new Espacio("154",TipoVehiculo.MOTO);
-        Espacio espacio1 = new Espacio("144",TipoVehiculo.MOTO);
-        Espacio espacio2 = new Espacio("143",TipoVehiculo.CARRO);
-        Espacio espacio3 = new Espacio("568",TipoVehiculo.BICICLETA);
-        Vehiculo v = new Vehiculo("123",TipoVehiculo.MOTO,"juan",LocalDateTime.of(2026,4,22,10,20),TipoUsuario.ESTUDIANTE);
-        Vehiculo v0 = new Vehiculo("183",TipoVehiculo.MOTO,"juan",LocalDateTime.of(2026,4,22,10,20),TipoUsuario.ESTUDIANTE);
-        Vehiculo v1 = new Vehiculo("153",TipoVehiculo.CARRO,"juan",LocalDateTime.of(2026,4,22,10,20),TipoUsuario.ESTUDIANTE);
-        Vehiculo v3 = new Vehiculo(TipoVehiculo.BICICLETA,"juan",LocalDateTime.of(2026,4,22,10,20),TipoUsuario.ESTUDIANTE);
-        Tarifa tm = new Tarifa(TipoVehiculo.MOTO,1000,150);
-        Tarifa tc = new Tarifa(TipoVehiculo.CARRO,1500,200);
-        Tarifa tb = new Tarifa(TipoVehiculo.BICICLETA,900,200);
-        p.crearEspacio(espacio);
-        p.crearEspacio(espacio1);
-        p.crearEspacio(espacio2);
-        System.out.println(p.listarEspacio());
-        p.crearVehiculo(v);
-        p.crearVehiculo(v1);
-        System.out.println( p.listarVehiculo());
-        Pago pago = new Pago(v,tm);
-        Pago pago1 = new Pago(v0,tm);
-        Pago pago2 = new Pago(v1,tc);
-        ps.crearPago(pago);
-        ps.crearPago(pago1);
-        ps.crearPago(pago2);
-        ps.calcularPago(pago);
-        ps.calcularPago(pago1);
-        ps.calcularPago(pago2);
-        System.out.println(ps.listarPago());
-        System.out.println(p.listarVehiculo());
-        System.out.println(p.crearVehiculo(v0));
-        System.out.println(p.listarVehiculo());
-        p.crearEspacio(espacio3);
-        System.out.println(p.listarEspacio());
-        p.crearVehiculo(TipoVehiculo.BICICLETA, v3);
-        System.out.println(p.listarVehiculo());
-        p.crearVehiculo(v);
-        System.out.println(p.listarVehiculo());
-        int vehiculosPorDia = vs.vehiculosIngresadosPorDia(LocalDateTime.of(2026,4,22,10,20));
-        System.out.println(vehiculosPorDia);
-        System.out.println(ps.listarPago());
-        System.out.println("los ingresos del: "+pago.formatearHora(pago.getFecha().atZone(ZoneId.systemDefault()))+" son $"+ps.ingresosGeneradosPorDia(pago.getFecha()));
-        System.out.println(ps.tiempoPromedioDePermanencia(LocalDateTime.now())+" horas");
-        System.out.println(p.listarVehiculo());
-
+        launch(args);
     }
 }
