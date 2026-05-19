@@ -55,7 +55,7 @@ public class  PagoServices {
     public void crearPago(Pago pago){
         if (pago != null){
             pagos.add(pago);
-            pago.getVehiculo().setEstadoVehiculo(EstadoVehiculo.SALIO);
+            pago.getVehiculo().setEstadoVehiculo(EstadoVehiculo.FUERA);
             pago.setValorPagar(calcularPago(pago));
             pago.setFecha(pago.getVehiculo().getHoraSalida());
         }

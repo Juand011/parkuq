@@ -3,10 +3,7 @@ package services;
 import utilidades.*;
 import model.*;
 import javax.swing.*;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
@@ -318,11 +315,12 @@ public class Parqueadero {
 
     public Vehiculo buscarVehiculo(String placa) {
         for (Vehiculo v : vehiculos) {
-            if (v.normalizar(placa).equalsIgnoreCase(v.getPlaca())) {
+            // Validamos que coincida la placa Y QUE EL VEHÍCULO NO HAYA SALIDO
+            if (v.normalizar(placa).equalsIgnoreCase(v.getPlaca()) && v.getEstadoVehiculo() == EstadoVehiculo.ADENTRO) {
                 return v;
             }
         }
-        return null;
+        return null; // Si no está adentro, retorna null
     }
 
     public boolean crearVehiculo(Vehiculo vehiculo) {
@@ -337,13 +335,13 @@ public class Parqueadero {
                 vehiculo.getEspacioAsignado().setEstado(Estado.OCUPADO);
             }
 
-            vehiculo.setEstadoVehiculo(EstadoVehiculo.ENTRO);
+            vehiculo.setEstadoVehiculo(EstadoVehiculo.ADENTRO);
 
             vehiculos.add(vehiculo);
 
             return true;
 
-        } else if (vehiculoExistente.getEstadoVehiculo() == EstadoVehiculo.SALIO) {
+        } else if (vehiculoExistente.getEstadoVehiculo() == EstadoVehiculo.FUERA) {
 
             asignarEspacio(vehiculoExistente);
 
@@ -351,7 +349,7 @@ public class Parqueadero {
 
                 vehiculoExistente.getEspacioAsignado().setEstado(Estado.OCUPADO);
 
-                vehiculoExistente.setEstadoVehiculo(EstadoVehiculo.ENTRO);
+                vehiculoExistente.setEstadoVehiculo(EstadoVehiculo.ADENTRO);
 
                 vehiculoExistente.setHoraIngreso(LocalDateTime.now());
 
@@ -370,7 +368,7 @@ public class Parqueadero {
             if(vehiculo.getEspacioAsignado() != null){
                 vehiculo.getEspacioAsignado().setEstado(Estado.OCUPADO);
             }
-            vehiculo.setEstadoVehiculo(EstadoVehiculo.ENTRO);
+            vehiculo.setEstadoVehiculo(EstadoVehiculo.ADENTRO);
             vehiculos.add(vehiculo);
             return true;
         }
@@ -545,5 +543,134 @@ public class Parqueadero {
             return false;
         }
     }
+    public void guardarUsuarios() {
+        String ruta = "E:\\INTELIGENT\\Av1\\parkuq\\src\\Controllers\\usuarios.txt";
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(ruta, false))) { // false para sobrescribir con la lista actualizada
+            for (Usuario u : getUsuarios()) {
+                writer.write(u.getNombre() + "|" +
+                        u.getId() + "|" +
+                        u.getTipoUsuario());
+                writer.newLine();
+            }
+            System.out.println("✅ Archivo usuarios.txt actualizado.");
+        } catch (IOException e) {
+            System.err.println("❌ Error al guardar usuarios: " + e.getMessage());
+        }
 
+    }
+    public void guardarOperadores() {
+        String ruta = "E:\\INTELIGENT\\Av1\\parkuq\\src\\Controllers\\operadores.txt";
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(ruta, false))) {
+            for (Operador o : getOperadores()) {
+                writer.write(o.getNombre() + "|" +
+                        o.getId() + "|" +
+                        o.getCodigo() + "|" +
+                        o.getRoll() + "|" +
+                        o.getContrasena());
+                writer.newLine();
+            }
+            System.out.println("✅ Archivo operadores.txt actualizado.");
+        } catch (IOException e) {
+            System.err.println("❌ Error al guardar operadores: " + e.getMessage());
+        }
+     }
+    public void guardarEspacios() {
+        String ruta = "E:\\INTELIGENT\\Av1\\parkuq\\src\\Controllers\\espacios.txt";
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(ruta, false))) {
+            for (Espacio e : getEspacios()) {
+                writer.write(e.getCodigo() + "|" +
+                        e.getTipoEspacio() + "|" +
+                        e.getEstado());
+                writer.newLine();
+            }
+            System.out.println("✅ Archivo espacios.txt actualizado.");
+        } catch (IOException e) {
+            System.err.println("❌ Error al guardar espacios: " + e.getMessage());
+        }
+    }
+    public void guardarTarifas(double carro, double moto, double bici) {
+        String ruta = "E:\\INTELIGENT\\Av1\\parkuq\\src\\Controllers\\tarifas.txt";
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(ruta, false))) {
+            writer.write(carro + "|" + moto + "|" + bici);
+            System.out.println("✅ Tarifas guardadas en archivo.");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    public void cargarDatosI() {
+        cargarUsuarios();
+        cargarOperadores();
+        cargarEspacios();
+    }
+
+    private void cargarUsuarios() {
+        String ruta = "E:\\INTELIGENT\\Av1\\parkuq\\src\\Controllers\\usuarios.txt";
+        File archivo = new File(ruta);
+        if (!archivo.exists()) return;
+
+        try (BufferedReader reader = new BufferedReader(new FileReader(archivo))) {
+            String linea;
+            while ((linea = reader.readLine()) != null) {
+                String[] datos = linea.split("\\|");
+                if (datos.length == 3) {
+                    usuarios.add(new Usuario(datos[0], Integer.parseInt(datos[1]), TipoUsuario.valueOf(datos[2])));
+                }
+            }
+        } catch (IOException e) { System.err.println("Error cargando usuarios: " + e.getMessage()); }
+    }
+
+    private void cargarOperadores() {
+        String ruta = "E:\\INTELIGENT\\Av1\\parkuq\\src\\Controllers\\operadores.txt";
+        File archivo = new File(ruta);
+        if (!archivo.exists()) return;
+
+        try (BufferedReader reader = new BufferedReader(new FileReader(archivo))) {
+            String linea;
+            while ((linea = reader.readLine()) != null) {
+                String[] datos = linea.split("\\|");
+                if (datos.length == 5) {
+                    // Nombre|ID|Codigo|Rol|Contrasena
+                    operadores.add(new Operador(datos[0], Integer.parseInt(datos[1]), datos[2], Roll.valueOf(datos[3]), datos[4]));
+                }
+            }
+        } catch (IOException e) { System.err.println("Error cargando operadores: " + e.getMessage()); }
+    }
+
+    private void cargarEspacios() {
+        String ruta = "E:\\INTELIGENT\\Av1\\parkuq\\src\\Controllers\\espacios.txt";
+        File archivo = new File(ruta);
+        if (!archivo.exists()) return;
+
+        try (BufferedReader reader = new BufferedReader(new FileReader(archivo))) {
+            String linea;
+            while ((linea = reader.readLine()) != null) {
+                String[] datos = linea.split("\\|");
+                if (datos.length == 3) {
+                    // Codigo|TipoVehiculo|Estado
+                    espacios.add(new Espacio(datos[0], TipoVehiculo.valueOf(datos[1]), Estado.valueOf(datos[2])));
+                }
+            }
+        } catch (IOException e) { System.err.println("Error cargando espacios: " + e.getMessage()); }
+    }
+
+    public double[] cargarTarifas() {
+        String ruta = "E:\\INTELIGENT\\Av1\\parkuq\\src\\Controllers\\tarifas.txt";
+        File archivo = new File(ruta);
+        if (!archivo.exists()) return new double[]{0, 0, 0}; // Valores por defecto
+
+        try (BufferedReader reader = new BufferedReader(new FileReader(archivo))) {
+            String linea = reader.readLine();
+            if (linea != null) {
+                String[] datos = linea.split("\\|");
+                return new double[]{
+                        Double.parseDouble(datos[0]),
+                        Double.parseDouble(datos[1]),
+                        Double.parseDouble(datos[2])
+                };
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return new double[]{0, 0, 0};
+    }
 }

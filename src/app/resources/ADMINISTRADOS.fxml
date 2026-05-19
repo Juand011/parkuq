@@ -3,22 +3,8 @@
 <?import java.lang.String?>
 <?import javafx.collections.FXCollections?>
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ComboBox?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.PasswordField?>
-<?import javafx.scene.control.Separator?>
-<?import javafx.scene.control.Tab?>
-<?import javafx.scene.control.TabPane?>
-<?import javafx.scene.control.TableColumn?>
-<?import javafx.scene.control.TableView?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Font?>
 
 <AnchorPane prefHeight="750.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.AAdministrador">
@@ -32,6 +18,7 @@
                         </Label>
                         <Separator orientation="VERTICAL" />
                         <Label fx:id="usuarioLogueadoLabel" text="Admin: Conectado" textFill="#7f8c8d" />
+                        <Button onAction="#handleRestablecerDatosFabrica" style="-fx-background-color: #d35400; -fx-text-fill: white; -fx-cursor: hand; -fx-font-weight: bold;" text="⚠️ Restablecer de Fábrica" />
                         <Button onAction="#handleCerrarSesion" style="-fx-background-color: #e74c3c; -fx-text-fill: white; -fx-cursor: hand;" text="Cerrar Sesión" />
                     </children>
                 </HBox>
@@ -43,11 +30,12 @@
                                 <VBox spacing="15.0">
                                     <padding><Insets bottom="15.0" left="15.0" right="15.0" top="15.0" /></padding>
                                     <children>
-                                        <Label text="REGISTRAR ESPACIO"><font><Font name="System Bold" size="14.0" /></font></Label>
+                                        <Label text="GESTIÓN DE ESPACIOS"><font><Font name="System Bold" size="14.0" /></font></Label>
                                         <GridPane hgap="10.0" vgap="10.0">
                                             <children>
-                                                <Label text="Código:" />
-                                                <TextField fx:id="codigoEspacioField" promptText="E-01" GridPane.columnIndex="1" />
+                                                <Label text="Prefijo Código:" />
+                                                <TextField fx:id="codigoEspacioField" promptText="E-" GridPane.columnIndex="1" />
+
                                                 <Label text="Tipo:" GridPane.rowIndex="1" />
                                                 <ComboBox fx:id="tipoEspacioCombo" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
                                                     <items>
@@ -58,9 +46,18 @@
                                                         </FXCollections>
                                                     </items>
                                                 </ComboBox>
+
+                                                <Label text="Cantidad a crear:" GridPane.rowIndex="2" />
+                                                <TextField fx:id="cantidadEspaciosField" promptText="1" text="1" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                                             </children>
                                         </GridPane>
-                                        <Button onAction="#handleRegistrarEspacio" style="-fx-background-color: #27ae60; -fx-text-fill: white;" text="Guardar Espacio" />
+                                        <HBox spacing="10.0">
+                                            <children>
+                                                <Button onAction="#handleRegistrarEspacio" style="-fx-background-color: #27ae60; -fx-text-fill: white;" text="Registrar Múltiples" />
+                                                <Button onAction="#handlePonerEnMantenimiento" style="-fx-background-color: #f39c12; -fx-text-fill: white;" text="Mantenimiento (ON/OFF)" />
+                                                <Button onAction="#handleEliminarEspacio" style="-fx-background-color: #c0392b; -fx-text-fill: white;" text="Eliminar Seleccionado" />
+                                            </children>
+                                        </HBox>
                                         <Separator />
                                         <TableView fx:id="tablaEspacios" VBox.vgrow="ALWAYS">
                                             <columns>
@@ -153,7 +150,6 @@
                                             <children>
                                                 <Label text="Nombre Usuario:" />
                                                 <TextField fx:id="userAdminField" promptText="Nombre para login" GridPane.columnIndex="1" />
-
                                                 <Label text="Contraseña:" GridPane.rowIndex="1" />
                                                 <PasswordField fx:id="codigoAdminField" promptText="Clave de seguridad" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                                             </children>

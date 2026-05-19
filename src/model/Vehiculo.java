@@ -68,6 +68,11 @@ public class Vehiculo implements Util {
         return placa;
     }
 
+    public TipoVehiculo getTipoVehiculo() {
+        return vehiculo;
+    }
+    public void setTipoVehiculo(TipoVehiculo vehiculo) {}
+
     public void setPlaca(String placa) {
         this.placa = placa;
     }

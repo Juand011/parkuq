@@ -1,6 +1,6 @@
 package utilidades;
 
 public enum EstadoVehiculo {
-    ENTRO,
-    SALIO
+    ADENTRO,
+    FUERA
 }

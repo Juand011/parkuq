@@ -12,9 +12,10 @@ public class Espacio implements Util {
     private Estado estado;
     private Vehiculo vehiculoAsignado;
 
-    public Espacio(String codigo, TipoVehiculo tipoEspacio){
+    public Espacio(String codigo, TipoVehiculo tipoEspacio, Estado estado){
         this.codigo = codigo;
         this.tipoEspacio = tipoEspacio;
+        this.estado = estado;
 
     }
     @Override

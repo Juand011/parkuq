@@ -74,7 +74,7 @@ public class PLogin {
 
     // Método para verificar si un código ya existe en el archivo
     private static boolean verificarCodigoExistente(String codigo) {
-        String ruta = "E:\\INTELIGENT\\Av1\\parkuq\\src\\Controllers\\administradores.txt";
+        String ruta = "src/Controllers/administradores.txt";
         File archivo = new File(ruta);
 
         // Si el archivo no existe, no hay códigos que verificar
@@ -125,7 +125,7 @@ public class PLogin {
     }
 
     private static void mostrarUltimosRegistros() {/// Prueba leer ids ///
-        String ruta = "E:\\INTELIGENT\\Av1\\parkuq\\src\\Controllers\\administradores.txt";
+        String ruta = "src/Controllers/administradores.txt";
 
         try (BufferedReader reader = new BufferedReader(new FileReader(ruta))) {
             String linea;
@@ -157,7 +157,7 @@ public class PLogin {
 
     // Método para verificar si un ID ya existe en el archivo
     private static boolean verificarIdExistente(int id) {
-        String ruta = "E:\\INTELIGENT\\Av1\\parkuq\\src\\Controllers\\administradores.txt";
+        String ruta = "src/Controllers/administradores.txt";
         File archivo = new File(ruta);
 
         // Si el archivo no existe, no hay IDs que verificar
@@ -197,15 +197,24 @@ public class PLogin {
         return listaAdministradores;
     }
     private static void guardarAdministradoresEnArchivo(Administrador administrador) {
-        String ruta = "E:\\INTELIGENT\\Av1\\parkuq\\src\\Controllers\\administradores.txt";
+        // Al quitar las barras del inicio, Java empieza a buscar desde la raíz del proyecto
+        String ruta = "src/Controllers/administradores.txt";
 
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(ruta, true))) {
+        // Creamos un objeto File para asegurarnos de que el directorio exista
+        File archivo = new File(ruta);
+
+        // Verificación de seguridad: si las carpetas no existen, las crea
+        if (archivo.getParentFile() != null && !archivo.getParentFile().exists()) {
+            archivo.getParentFile().mkdirs();
+        }
+
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(archivo, true))) {
             // Concatenamos todo en una sola línea usando el separador "|"
             writer.write(administrador.getNombre() + "|" +
                     administrador.getId() + "|" +
                     administrador.getCodigo() + "|" +
                     administrador.getRoll() + "|" +
-                    administrador.getContrasena()); // <--- Ahora sí se escribe
+                    administrador.getContrasena());
 
             writer.newLine(); // Salto de línea para el siguiente registro
 
@@ -214,7 +223,6 @@ public class PLogin {
             System.err.println("❌ Error al guardar en el archivo: " + e.getMessage());
         }
     }
-
     private  Administrador CrearAdministrador() {
         Administrador administrador = new Administrador(nombreUsuarioField.getText(), ID_VALIDO, CODIGO_VALIDO, Roll.ADMINISTRADOR, contrasenaField.getText());
         administrador.setNombre(nombreUsuarioField.getText());
