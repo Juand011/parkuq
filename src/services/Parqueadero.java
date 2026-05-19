@@ -544,7 +544,7 @@ public class Parqueadero {
         }
     }
     public void guardarUsuarios() {
-        String ruta = "E:\\INTELIGENT\\Av1\\parkuq\\src\\Controllers\\usuarios.txt";
+        String ruta = "Src/Controllers/usuarios.txt";
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(ruta, false))) { // false para sobrescribir con la lista actualizada
             for (Usuario u : getUsuarios()) {
                 writer.write(u.getNombre() + "|" +
