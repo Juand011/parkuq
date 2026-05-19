@@ -604,7 +604,7 @@ public class Parqueadero {
     }
 
     private void cargarUsuarios() {
-        String ruta = "E:\\INTELIGENT\\Av1\\parkuq\\src\\Controllers\\usuarios.txt";
+        String ruta = "src/Controllers/usuarios.txt";
         File archivo = new File(ruta);
         if (!archivo.exists()) return;
 
@@ -620,7 +620,7 @@ public class Parqueadero {
     }
 
     private void cargarOperadores() {
-        String ruta = "E:\\INTELIGENT\\Av1\\parkuq\\src\\Controllers\\operadores.txt";
+        String ruta = "src/Controllers/operadores.txt";
         File archivo = new File(ruta);
         if (!archivo.exists()) return;
 
@@ -637,7 +637,7 @@ public class Parqueadero {
     }
 
     private void cargarEspacios() {
-        String ruta = "E:\\INTELIGENT\\Av1\\parkuq\\src\\Controllers\\espacios.txt";
+        String ruta = "src/Controllers/espacios.txt";
         File archivo = new File(ruta);
         if (!archivo.exists()) return;
 
@@ -654,7 +654,7 @@ public class Parqueadero {
     }
 
     public double[] cargarTarifas() {
-        String ruta = "E:\\INTELIGENT\\Av1\\parkuq\\src\\Controllers\\tarifas.txt";
+        String ruta = "src/Controllers/tarifas.txt";
         File archivo = new File(ruta);
         if (!archivo.exists()) return new double[]{0, 0, 0}; // Valores por defecto
 
