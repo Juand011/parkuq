@@ -575,7 +575,7 @@ public class Parqueadero {
         }
      }
     public void guardarEspacios() {
-        String ruta = "E:\\INTELIGENT\\Av1\\parkuq\\src\\Controllers\\espacios.txt";
+        String ruta = "src/Controllers/espacios.txt";
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(ruta, false))) {
             for (Espacio e : getEspacios()) {
                 writer.write(e.getCodigo() + "|" +
