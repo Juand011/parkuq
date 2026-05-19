@@ -504,7 +504,7 @@ public class Parqueadero {
 
     // ================ METODOS PROPIOS DE LOGIN ================
     public void cargarDatosIniciales() {
-        String ruta = "E:\\INTELIGENT\\Av1\\parkuq\\src\\Controllers\\administradores.txt";
+        String ruta = "Src/Controllers/administradores.txt";
         this.administradores.clear();
 
         try (java.io.BufferedReader br = new java.io.BufferedReader(new java.io.FileReader(ruta))) {

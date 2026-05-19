@@ -285,7 +285,8 @@ public class AAdministrador {
     }
 
     /**
-     * LÓGICA DE RESTABLECIMIENTO DE FÁBRICA EN LOS TXT PL ANOS
+     * LÓGICA DE RESTABLECIMIENTO DE FÁBRICA
+     * Nota: Se dejan vacíos para evitar colisiones con los Enums durante el mapeo (valueOf)
      */
     @FXML
     private void handleRestablecerDatosFabrica(ActionEvent event) {
@@ -298,48 +299,44 @@ public class AAdministrador {
         if (result.isPresent() && result.get() == ButtonType.OK) {
             String carpetaBase = "src/Controllers/";
             try {
-                // A. espacios.txt (Escribe estructura vacía)
+                // A. espacios.txt (Vacío absoluto)
                 try (BufferedWriter bw = new BufferedWriter(new FileWriter(carpetaBase + "espacios.txt", false))) {
-                    bw.write("Codigo|TipoEspacio|Estado");
-                    bw.newLine();
+                    bw.write("");
                 }
-                // B. HistoricoPagos.txt (Escribe estructura vacía)
+                // B. HistoricoPagos.txt (Vacío absoluto)
                 try (BufferedWriter bw = new BufferedWriter(new FileWriter(carpetaBase + "HistoricoPagos.txt", false))) {
-                    bw.write("Placa Vehículo|Tipo Unidad|Valor Cobrado|Fecha Recaudo|Tipo Usuario");
-                    bw.newLine();
+                    bw.write("");
                 }
-                // C. VehiculosEstacionados.txt (Escribe estructura vacía)
+                // C. VehiculosEstacionados.txt (Vacío absoluto)
                 try (BufferedWriter bw = new BufferedWriter(new FileWriter(carpetaBase + "VehiculosEstacionados.txt", false))) {
-                    bw.write("Placa Vehículo|Tipo de Unidad|Nombre Conductor|Celda Asignada|Estampado Hora Ingreso|Tipo Usuario");
-                    bw.newLine();
+                    bw.write("");
                 }
-                // D. usuarios.txt (Escribe estructura vacía)
+                // D. usuarios.txt (Vacío absoluto)
                 try (BufferedWriter bw = new BufferedWriter(new FileWriter(carpetaBase + "usuarios.txt", false))) {
-                    bw.write("Nombre|Identificacion|TipoUsuario");
-                    bw.newLine();
+                    bw.write("");
                 }
-                // E. operadores.txt (Limpia por completo)
+                // E. operadores.txt (Vacío absoluto)
                 try (BufferedWriter bw = new BufferedWriter(new FileWriter(carpetaBase + "operadores.txt", false))) {
-                    // Vacío absoluto
+                    bw.write("");
                 }
-                // F. tarifas.txt (Valores por defecto a 0.0)
+                // F. tarifas.txt (Valores base a 0.0)
                 try (BufferedWriter bw = new BufferedWriter(new FileWriter(carpetaBase + "tarifas.txt", false))) {
                     bw.write("0.0|0.0|0.0");
                 }
 
-                // Sincronizar las listas de negocio en memoria RAM
+                // Sincronizar las listas en memoria RAM de forma inmediata
                 parqueaderoService.getEspacios().clear();
                 parqueaderoService.getUsuarios().clear();
                 parqueaderoService.getOperadores().clear();
 
-                // Actualizar interfaz gráfica inmediatamente
+                // Forzar refresco visual instantáneo en el dashboard
                 actualizarTablas();
 
                 tarifaCarroField.setText("0.0");
                 tarifaMotoField.setText("0.0");
                 tarifaBiciField.setText("0.0");
 
-                mostrarAlerta("Éxito", "¡El sistema ha sido restablecido exitosamente! Los archivos han sido formateados.");
+                mostrarAlerta("Éxito", "¡El sistema ha sido restablecido exitosamente! Los ficheros han sido formateados.");
             } catch (IOException e) {
                 mostrarAlerta("Error", "Error al intentar escribir en los archivos planos de almacenamiento: " + e.getMessage());
             }

@@ -111,7 +111,7 @@
                                                         <FXCollections fx:factory="observableArrayList">
                                                             <String fx:value="ESTUDIANTE" />
                                                             <String fx:value="DOCENTE" />
-                                                            <String fx:value="ADMINISTRATIVO" />
+                                                            <String fx:value="FUNCIONARIO" />
                                                         </FXCollections>
                                                     </items>
                                                 </ComboBox>
