@@ -559,7 +559,7 @@ public class Parqueadero {
 
     }
     public void guardarOperadores() {
-        String ruta = "E:\\INTELIGENT\\Av1\\parkuq\\src\\Controllers\\operadores.txt";
+        String ruta = "src/Controllers/operadores.txt";
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(ruta, false))) {
             for (Operador o : getOperadores()) {
                 writer.write(o.getNombre() + "|" +
@@ -589,7 +589,7 @@ public class Parqueadero {
         }
     }
     public void guardarTarifas(double carro, double moto, double bici) {
-        String ruta = "E:\\INTELIGENT\\Av1\\parkuq\\src\\Controllers\\tarifas.txt";
+        String ruta = "src/Controllers/tarifas.txt";
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(ruta, false))) {
             writer.write(carro + "|" + moto + "|" + bici);
             System.out.println("✅ Tarifas guardadas en archivo.");
