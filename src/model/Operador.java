@@ -38,8 +38,9 @@ public class Operador extends Persona implements Util {
     public String getContrasena() {
         return contrasena;
     }
-    public void setContrasena() {
+    public void setContrasena(String contrasena) {
         this.contrasena = contrasena;
+
     }
 
     public Roll getRoll() {
